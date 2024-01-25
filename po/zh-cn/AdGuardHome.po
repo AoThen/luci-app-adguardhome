@@ -1,8 +1,7 @@
 
-msgid ""
-msgstr ""
 
 #/cgi-bin/luci/admin/services/AdGuardHome
+
 msgid "Base Setting"
 msgstr "基础设置"
 
