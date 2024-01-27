@@ -1,3 +1,5 @@
+修改防火墙规则适配nftables
+
 # luci-app-adguardhome
 复杂的AdGuardHome的openwrt的luci界面
 

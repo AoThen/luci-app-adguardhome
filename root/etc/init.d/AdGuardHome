@@ -66,7 +66,7 @@ set_iptable()
 	local ipv6_server=$1
 	local tcp_server=$2
 	uci -q batch <<-EOF >/dev/null 2>&1
-  delete firewall.AdGuardHome
+  	delete firewall.AdGuardHome
 	set firewall.AdGuardHome=include
 	set firewall.AdGuardHome.type=script
 	set firewall.AdGuardHome.path=/usr/share/AdGuardHome/firewall.start
@@ -101,7 +101,7 @@ EOF
 clear_iptable()
 {
 	uci -q batch <<-EOF >/dev/null 2>&1
-  delete firewall.AdGuardHome
+  	delete firewall.AdGuardHome
 	commit firewall
 EOF
 	local OLD_PORT="$1"
