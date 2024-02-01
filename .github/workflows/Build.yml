@@ -19,14 +19,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get v2ray-geodata
-        run: |
-          git clone https://github.com/sbwml/v2ray-geodata
 
       - name: Building packages
         uses: sbwml/openwrt-gh-action-sdk@go1.21
         env:
-          ARCH: ${{ matrix.arch }}-openwrt-21.02
+          ARCH: ${{ matrix.arch }}-openwrt-22.03
           FEEDNAME: packages_ci
           PACKAGES: luci-app-adguardhome
           NO_REFRESH_CHECK: true
