@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - aarch64_cortex-a53
+
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get v2ray-geodata
+        run: |
+          git clone https://github.com/sbwml/v2ray-geodata
+
+      - name: Building packages
+        uses: sbwml/openwrt-gh-action-sdk@go1.21
+        env:
+          ARCH: ${{ matrix.arch }}-openwrt-21.02
+          FEEDNAME: packages_ci
+          PACKAGES: luci-app-adguardhome
+          NO_REFRESH_CHECK: true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.arch }}
+          path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
