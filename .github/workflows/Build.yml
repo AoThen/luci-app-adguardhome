@@ -12,6 +12,7 @@ jobs:
       matrix:
         arch:
           - aarch64_cortex-a53
+          - x86_64
 
 
     steps:
@@ -31,5 +32,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@main
         with:
-          name: ${{ matrix.arch }}
+          name: adguardhome${{ matrix.arch }}
           path: bin/packages/${{ matrix.arch }}/packages_ci/*.ipk
