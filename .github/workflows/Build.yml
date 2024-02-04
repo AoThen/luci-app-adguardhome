@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.arch }}
+    name: Build ${{ matrix.arch }}-${{ matrix.branch }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -24,7 +24,7 @@ jobs:
 
 
       - name: Building packages
-        uses: sbwml/openwrt-gh-action-sdk@go1.21
+        uses: sbwml/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
           FEEDNAME: packages_ci
