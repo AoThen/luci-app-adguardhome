@@ -15,7 +15,6 @@ jobs:
           - x86_64
         branch:
           - openwrt-21.02
-          - openwrt-23.05
 
     steps:
       - uses: actions/checkout@main
