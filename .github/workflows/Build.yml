@@ -23,7 +23,7 @@ jobs:
 
 
       - name: Building packages
-        uses: sbwml/gh-action-sdk@main
+        uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
           FEEDNAME: packages_ci
