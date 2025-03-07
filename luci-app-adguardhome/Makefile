@@ -6,9 +6,9 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-adguardhome
-PKG_VERSION:=1.9.1
+PKG_VERSION:=1.9.2
 PKG_RELEASE:=1
-PKG_MAINTAINER:=<https://github.com/rufengsuixing/luci-app-adguardhome>
+PKG_MAINTAINER:=<https://github.com/AoThen/luci-app-adguardhome>
 
 LUCI_TITLE:=LuCI app for adguardhome
 LUCI_DEPENDS:=+!wget&&!curl&&!wget-ssl:curl
@@ -49,6 +49,11 @@ define Package/luci-app-adguardhome/postrm
 #!/bin/sh
 rm -rf /etc/AdGuardHome/
 exit 0
+endef
+
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	$(INSTALL_DATA) $(BUILD_DIR)/$(PKG_NAME)/*.*.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
