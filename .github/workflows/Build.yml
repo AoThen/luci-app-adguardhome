@@ -15,7 +15,7 @@ jobs:
           - aarch64_cortex-a53
           - x86_64
         branch:
-          - openwrt-23.05
+          - openwrt-24.10
 
     steps:
       - uses: actions/checkout@main
