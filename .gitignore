@@ -4,3 +4,5 @@
 CONTROL/
 
 .github/workflows/test.yml
+AGENTS.md
+.sisyphus/
