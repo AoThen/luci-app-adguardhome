@@ -11,6 +11,7 @@ PKG_RELEASE:=1
 PKG_MAINTAINER:=<https://github.com/AoThen/luci-app-adguardhome>
 
 LUCI_TITLE:=LuCI app for adguardhome
+LUCI_LANG.zh-cn:=简体中文
 LUCI_DEPENDS:=+!wget&&!curl&&!wget-ssl:curl
 LUCI_PKGARCH:=all
 LUCI_DESCRIPTION:=LuCI support for adguardhome
