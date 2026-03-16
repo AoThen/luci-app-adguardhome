@@ -10,8 +10,8 @@ upxflag=$(uci get AdGuardHome.AdGuardHome.upxflag 2>/dev/null)
 tagname=$(uci get AdGuardHome.AdGuardHome.tagname 2>/dev/null)
 
 check_if_already_running(){
-	running_tasks="$(ps |grep "AdGuardHome" |grep "update_core" |grep -v "grep" |awk '{print $1}' |wc -l)"
-	[ "${running_tasks}" -gt "2" ] && echo -e "\nA task is already running."  && EXIT 2
+	running_tasks="$(pgrep -f "update_core.sh" | grep -v "^$$" | wc -l)"
+	[ "${running_tasks}" -gt "0" ] && echo -e "\nA task is already running."  && EXIT 2
 }
 
 check_wgetcurl(){
@@ -223,17 +223,25 @@ doupdate_core(){
 	echo -e "Local version: ${latest_ver}, cloud version: ${latest_ver}.\n" 
 	EXIT 0
 }
+
 EXIT(){
-	rm /var/run/update_core 2>/dev/null
+	rm -f /var/run/update_core 2>/dev/null
 	[ "$1" != "0" ] && touch /var/run/update_core_error
 	exit $1
 }
+
+cleanup() {
+    rm -f /var/run/update_core 2>/dev/null
+    exit 0
+}
+
+trap cleanup SIGTERM SIGINT SIGHUP SIGQUIT SIGABRT SIGALRM
+
 main(){
 	
 	check_if_already_running
 	check_latest_version $1
 }
-	trap "EXIT 1" SIGTERM SIGINT
 	touch /var/run/update_core
 	rm /var/run/update_core_error 2>/dev/null
 	main $1

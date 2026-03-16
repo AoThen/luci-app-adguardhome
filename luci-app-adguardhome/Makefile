@@ -53,8 +53,25 @@ exit 0
 endef
 
 define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/controller/* $(1)/usr/lib/lua/luci/controller/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/AdGuardHome
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/model/cbi/AdGuardHome/* $(1)/usr/lib/lua/luci/model/cbi/AdGuardHome/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/AdGuardHome
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/luasrc/view/AdGuardHome/* $(1)/usr/lib/lua/luci/view/AdGuardHome/
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	$(INSTALL_DATA) $(BUILD_DIR)/$(PKG_NAME)/*.*.lmo $(1)/usr/lib/lua/luci/i18n/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/po/*/AdGuardHome.lmo $(1)/usr/lib/lua/luci/i18n/
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/root/etc/config/AdGuardHome $(1)/etc/config/
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/root/etc/init.d/AdGuardHome $(1)/etc/init.d/
+	$(INSTALL_DIR) $(1)/usr/share/AdGuardHome
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/root/usr/share/AdGuardHome/*.yaml $(1)/usr/share/AdGuardHome/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/root/usr/share/AdGuardHome/*.txt $(1)/usr/share/AdGuardHome/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/root/usr/share/AdGuardHome/*.sh $(1)/usr/share/AdGuardHome/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/root/usr/share/AdGuardHome/firewall.start $(1)/usr/share/AdGuardHome/
+	$(INSTALL_DIR) $(1)/www/luci-static/resources
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/root/www/luci-static/resources/* $(1)/www/luci-static/resources/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
