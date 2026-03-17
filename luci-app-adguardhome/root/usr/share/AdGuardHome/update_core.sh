@@ -10,8 +10,25 @@ upxflag=$(uci get AdGuardHome.AdGuardHome.upxflag 2>/dev/null)
 tagname=$(uci get AdGuardHome.AdGuardHome.tagname 2>/dev/null)
 
 check_if_already_running(){
-	running_tasks="$(pgrep -f "update_core.sh" | grep -v "^$$" | wc -l)"
-	[ "${running_tasks}" -gt "0" ] && echo -e "\nA task is already running."  && EXIT 2
+	# Check for actual running update_core.sh processes
+	# Use full path to avoid matching grep command itself
+	local running_pids
+	running_pids="$(pgrep -f "/usr/share/AdGuardHome/update_core.sh" 2>/dev/null | grep -v "^$$$" | grep -v "^$$ ")"
+	
+	# If lock file exists but no real process, clean up stale lock
+	if [ -f "/var/run/update_core" ] && [ -z "$running_pids" ]; then
+		rm -f /var/run/update_core
+		echo "Cleaned up stale lock file."
+	fi
+	
+	# Check for actual running tasks (excluding current process)
+	local running_count
+	running_count="$(echo "$running_pids" | grep -c . 2>/dev/null || echo 0)"
+	
+	if [ "${running_count}" -gt "0" ]; then
+		echo -e "\nA task is already running."
+		EXIT 2
+	fi
 }
 
 check_wgetcurl(){
